@@ -1,12 +1,13 @@
+
 package moi.gda.data.backend_gda_data.repository;
 
+import moi.gda.data.backend_gda_data.entity.KpiResult;
+import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import moi.gda.data.backend_gda_data.entity.KpiResult;
-
 public interface KpiResultRepository extends JpaRepository<KpiResult, Long> {
-    List<KpiResult> findByKpiIdAndYearAndApprovedTrue(Long id, Integer year);
-  }
-  
+
+    List<KpiResult> findByKpiIdAndYearAndApprovedTrueAndIsPublicTrue(
+            Long kpiId, Integer year
+    );
+}

@@ -1,23 +1,31 @@
+
 package moi.gda.data.backend_gda_data.controller.auth;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import lombok.RequiredArgsConstructor;
+import moi.gda.data.backend_gda_data.dto.auth.*;
+import moi.gda.data.backend_gda_data.dto.auth.AuthResponse;
+import moi.gda.data.backend_gda_data.dto.auth.LoginRequest;
+import moi.gda.data.backend_gda_data.dto.auth.RegisterRequest;
 import moi.gda.data.backend_gda_data.service.auth.AuthService;
 import moi.gda.data.backend_gda_data.utils.ApiResponse;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
 public class AuthController {
 
-  private final AuthService service;
+    private final AuthService service;
 
-  @PostMapping("/login")
-  public ApiResponse<String> login(@RequestParam String email) {
-    return ApiResponse.ok(service.login(email));
-  }
+    public AuthController(AuthService service) {
+        this.service = service;
+    }
+
+    @PostMapping("/register")
+    public ApiResponse<AuthResponse> register(@RequestBody RegisterRequest request) {
+        return ApiResponse.ok(service.register(request));
+    }
+
+    @PostMapping("/login")
+    public ApiResponse<AuthResponse> login(@RequestBody LoginRequest request) {
+        return ApiResponse.ok(service.login(request));
+    }
 }

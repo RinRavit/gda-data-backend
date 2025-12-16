@@ -1,25 +1,31 @@
+
 package moi.gda.data.backend_gda_data.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
-public class KpiResult extends BaseEntity {
+public class KpiResult {
 
-  @ManyToOne
-  private Kpi kpi;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  private Integer year;
-  private Integer term;
-  private Double value;
-  private boolean approved;
+    @ManyToOne
+    private Kpi kpi;
 
-  // ✅ EXPLICIT GETTERS / SETTERS
-  public boolean isApproved() {
-    return approved;
-  }
+    private Integer year;
+    private Double value;
+    private boolean approved;
+    private boolean isPublic;
 
-  public void setApproved(boolean approved) {
-    this.approved = approved;
-  }
+    public Long getId() { return id; }
+    public Kpi getKpi() { return kpi; }
+    public Integer getYear() { return year; }
+    public Double getValue() { return value; }
+    public boolean isApproved() { return approved; }
+    public boolean isPublic() { return isPublic; }
+
+    public void setApproved(boolean approved) { this.approved = approved; }
+    public void setPublic(boolean aPublic) { isPublic = aPublic; }
 }
+

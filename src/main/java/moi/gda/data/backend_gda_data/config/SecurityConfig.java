@@ -1,76 +1,34 @@
-// package moi.gda.data.backend_gda_data.config;
-
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.context.annotation.Configuration;
-// import org.springframework.http.HttpMethod;
-// import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-// import org.springframework.security.config.http.SessionCreationPolicy;
-// import org.springframework.security.web.SecurityFilterChain;
-// import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-// import lombok.RequiredArgsConstructor;
-// import moi.gda.data.backend_gda_data.security.JwtFilter;
-
-// @Configuration
-// @RequiredArgsConstructor
-// public class SecurityConfig {
-
-//   private final JwtFilter jwtFilter;
-
-//   @Bean
-//   SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//     http.csrf(csrf -> csrf.disable())
-//       .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//       .authorizeHttpRequests(auth -> auth
-//         .requestMatchers("/api/public/**", "/api/auth/**").permitAll()
-//         .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-//         .anyRequest().authenticated()
-//       )
-//       .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
-//     return http.build();
-//   }
-// }
-
-
 package moi.gda.data.backend_gda_data.config;
 
-import moi.gda.data.backend_gda_data.security.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
+import moi.gda.data.backend_gda_data.security.JwtFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-  private final JwtFilter jwtFilter;
+    private final JwtFilter filter;
 
-  // ✅ EXPLICIT CONSTRUCTOR (NO LOMBOK)
-  public SecurityConfig(JwtFilter jwtFilter) {
-    this.jwtFilter = jwtFilter;
-  }
+    public SecurityConfig(JwtFilter filter) {
+        this.filter = filter;
+    }
 
-  @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain chain(HttpSecurity http) throws Exception {
+        http.csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/public/**", "/api/auth/**").permitAll()
+                .requestMatchers("/api/admin/**").authenticated()
+                .anyRequest().authenticated()
+            )
+            .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
-    http
-      .csrf(csrf -> csrf.disable())
-      .sessionManagement(session ->
-        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-      )
-      .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/api/public/**", "/api/auth/**").permitAll()
-        .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-        .anyRequest().authenticated()
-      )
-      .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
-    return http.build();
-  }
+        return http.build();
+    }
 }

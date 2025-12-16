@@ -1,4 +1,12 @@
-package gda.data.backend.gda_data_backend.service.ministry;
+package moi.gda.data.backend_gda_data.service.ministry;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+import moi.gda.data.backend_gda_data.entity.Ministry;
+import moi.gda.data.backend_gda_data.repository.MinistryRepository;
 
 @Service
 @RequiredArgsConstructor

@@ -1,4 +1,10 @@
-package gda.data.backend.gda_data_backend.service.auth;
+package moi.gda.data.backend_gda_data.service.auth;
+
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+import moi.gda.data.backend_gda_data.repository.UserRepository;
+import moi.gda.data.backend_gda_data.security.JwtProvider;
 
 @Service
 @RequiredArgsConstructor

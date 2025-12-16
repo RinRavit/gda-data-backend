@@ -1,4 +1,14 @@
-package gda.data.backend.gda_data_backend.service.kpi;
+package moi.gda.data.backend_gda_data.service.kpi;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+import moi.gda.data.backend_gda_data.entity.Kpi;
+import moi.gda.data.backend_gda_data.entity.KpiResult;
+import moi.gda.data.backend_gda_data.repository.KpiRepository;
+import moi.gda.data.backend_gda_data.repository.KpiResultRepository;
 
 @Service
 @RequiredArgsConstructor
